@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Task Analyzer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Smart Task Analyzer</h1>
+        <p>Prioritize your tasks intelligently</p>
+      </header>
+
+      <div class="input-section">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('form')">
+            Add Task
+          </button>
+          <button class="tab-btn" onclick="switchTab('json')">
+            JSON Input
+          </button>
+        </div>
+
+        <div id="form-tab" class="tab-content active">
+          <form id="task-form">
+            <div class="form-group">
+              <label>Title</label>
+              <input
+                type="text"
+                id="title"
+                required
+                placeholder="e.g., Fix login bug"
+              />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Due Date</label>
+                <input type="date" id="due_date" />
+              </div>
+              <div class="form-group">
+                <label>Est. Hours</label>
+                <input
+                  type="number"
+                  id="estimated_hours"
+                  step="0.1"
+                  min="0.1"
+                  value="1"
+                />
+              </div>
+              <div class="form-group">
+                <label>Importance (1-10)</label>
+                <input
+                  type="number"
+                  id="importance"
+                  min="1"
+                  max="10"
+                  value="5"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Dependencies (Task IDs, comma separated)</label>
+              <input type="text" id="dependencies" placeholder="e.g., 1, 2" />
+            </div>
+            <div class="form-group">
+              <label>Task ID (Optional)</label>
+              <input
+                type="number"
+                id="task_id"
+                placeholder="Unique ID for dependencies"
+              />
+            </div>
+            <button type="submit" class="btn secondary">Add to List</button>
+          </form>
+        </div>
+
+        <div id="json-tab" class="tab-content">
+          <textarea
+            id="json-input"
+            placeholder='[{"id": 1, "title": "Task A", ...}]'
+          ></textarea>
+          <button onclick="loadJson()" class="btn secondary">Load JSON</button>
+        </div>
+
+        <div class="actions">
+          <div class="status">
+            Tasks in list: <span id="task-count">0</span>
+          </div>
+          <button onclick="analyzeTasks()" class="btn primary">
+            Analyze Tasks
+          </button>
+          <button onclick="clearTasks()" class="btn danger">Clear List</button>
+        </div>
+      </div>
+
+      <div class="results-section">
+        <div class="controls">
+          <label>Sort Strategy:</label>
+          <select id="sort-strategy" onchange="renderTasks()">
+            <option value="smart">Smart Balance (Default)</option>
+            <option value="fastest">Fastest Wins (Low Effort)</option>
+            <option value="impact">High Impact (Importance)</option>
+            <option value="deadline">Deadline Driven</option>
+          </select>
+        </div>
+        <div id="results-list" class="task-list">
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
